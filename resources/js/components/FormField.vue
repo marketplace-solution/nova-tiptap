@@ -253,6 +253,7 @@
     import VideoContentBlockExtension from "./content-blocks/VideoContentBlockExtension.js";
     import GalleryContentBlockExtension from "./content-blocks/GalleryContentBlockExtension.js";
     import BackgroundColorExtension from "../extensions/BackgroundColor.js";
+    import AsideExtension from "../extensions/AsideExtension.js";
 
     export default {
         mixins: [
@@ -533,6 +534,14 @@
                         };
                     },
                 }),
+                AsideExtension.extend({
+                    addAttributes() {
+                        return {
+                            ...this.parent?.(),
+                            dir: String,
+                        };
+                    },
+                }),
                 BulletList.extend({
                     addAttributes() {
                         return {
@@ -699,6 +708,7 @@
             h5,
             h6,
             blockquote,
+            aside,
             ul,
             ol,
             table,
@@ -758,6 +768,7 @@
             h5:first-child,
             h6:first-child,
             blockquote:first-child,
+            aside:first-child,
             ul:first-child,
             ol:first-child,
             table:first-child,
@@ -771,6 +782,16 @@
                 margin-bottom: 1.5em;
                 padding-left: 15px;
                 border-left: 3px solid #dddddd;
+            }
+
+            aside {
+                display: block;
+                margin-top: 1.5em;
+                margin-bottom: 1.5em;
+                padding: 15px;
+                border-left: 3px solid #3b82f6;
+                background-color: #eff6ff;
+                border-radius: 0 4px 4px 0;
             }
 
             a {

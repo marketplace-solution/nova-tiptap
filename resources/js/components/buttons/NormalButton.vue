@@ -48,7 +48,7 @@ export default {
             } else if (this.button == 'orderedList') {
                 return ['fas', 'list-ol'];
             } else if (this.button == 'horizontalRule') {
-                return ['fas', 'horizontal-rule'];
+                return ['fas', 'grip-lines'];
             } else if (this.button == 'table') {
                 return ['fas', 'table'];
             } else if (this.button == 'subscript') {
@@ -69,6 +69,8 @@ export default {
                 return '<span> &lt;/&gt; </span>';
             } else if (this.button == 'hardBreak') {
                 return '<span> BR </span>';
+            } else if (this.button == 'aside') {
+                return '<span style="font-size:10px;font-weight:600">ASIDE</span>';
             }
 
             return null;
@@ -96,6 +98,8 @@ export default {
                 command.toggleSuperscript();
             } else if (this.button == 'blockquote') {
                 command.toggleBlockquote();
+            } else if (this.button == 'aside') {
+                command.toggleAside();
             } else if (this.button == 'bulletList') {
                 command.toggleBulletList();
             } else if (this.button == 'orderedList') {

@@ -12,19 +12,6 @@
  */
 
 /*!
- * Font Awesome Pro 6.7.2 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license (Commercial License)
- * Copyright 2024 Fonticons, Inc.
- */
-
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
- */
-
-/*!
  * condense-newlines <https://github.com/jonschlinkert/condense-newlines>
  *
  * Copyright (c) 2014 Jon Schlinkert, contributors.
@@ -51,16 +38,6 @@
  * Copyright (c) 2013-2015, 2017, Jon Schlinkert.
  * Released under the MIT License.
  */
-
-/*!
- * vuex v4.1.0
- * (c) 2022 Evan You
- * @license MIT
- */
-
-/*! Axios v1.8.4 Copyright (c) 2025 Matt Zabriskie and contributors */
-
-/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /**
  * @license

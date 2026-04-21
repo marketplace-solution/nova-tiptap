@@ -59,28 +59,20 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import {
-    faHorizontalRule,
-    faParagraphRtl,
-    faImagePolaroid
-} from '@fortawesome/pro-solid-svg-icons';
-
-import {
-    faCube
-} from '@fortawesome/pro-regular-svg-icons';
-
-import { 
     faAlignCenter,
     faAlignJustify,
     faAlignLeft,
     faAlignRight,
     faBold,
     faCode,
+    faCube,
     faCubes,
     faFileCode,
+    faGripLines,
     faHighlighter,
     faImage,
     faItalic,
-    faLink, 
+    faLink,
     faListOl,
     faListUl,
     faParagraph,
@@ -109,16 +101,14 @@ library.add(
     faCube,
     faCubes,
     faFileCode,
+    faGripLines,
     faHighlighter,
-    faHorizontalRule,
     faImage,
-    faImagePolaroid,
     faItalic,
-    faLink, 
+    faLink,
     faListOl,
     faListUl,
     faParagraph,
-    faParagraphRtl,
     faQuoteRight,
     faRedoAlt,
     faStrikethrough,

@@ -1,6 +1,5 @@
 let mix = require('laravel-mix');
-
-require('./nova.mix');
+let webpack = require('webpack');
 
 mix
   .setPublicPath('dist')
@@ -9,10 +8,15 @@ mix
   .webpackConfig({
     externals: {
       vue: 'Vue',
+      'laravel-nova': 'LaravelNova',
     },
     output: {
-      uniqueName: 'vendor/package',
+      uniqueName: 'marshmallow/tiptap',
     },
+    plugins: [
+      new webpack.ProvidePlugin({
+        _: 'lodash',
+      }),
+    ],
   })
-  .postCss('resources/css/tiptap.css', 'css')
-  .nova('marshmallow/tiptap');
+  .postCss('resources/css/tiptap.css', 'css');
