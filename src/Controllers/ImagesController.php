@@ -79,7 +79,7 @@ class ImagesController
         // Store the file
         $newPath = $file->storeAs($path, $fileName, $disk);
 
-        $url = Storage::disk($disk)->url($newPath);
+        $url = parse_url(Storage::disk($disk)->url($newPath), PHP_URL_PATH);
 
         return response()->json([
             'url' => $url,
