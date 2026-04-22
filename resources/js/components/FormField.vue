@@ -218,7 +218,6 @@
     import HardBreak from "@tiptap/extension-hard-break";
     import Placeholder from "@tiptap/extension-placeholder";
 
-    import Image from "@tiptap/extension-image";
     import Dropcursor from "@tiptap/extension-dropcursor";
     import ImageResize from "tiptap-extension-resize-image";
 
@@ -587,30 +586,73 @@
                 Placeholder.configure({
                     placeholder: this.placeholder,
                 }),
-                Image.extend({
+                ImageResize.extend({
                     addAttributes() {
                         return {
                             ...this.parent?.(),
+                            containerStyle: {
+                                default: null,
+                                parseHTML: (element) => {
+                                    const containerStyle = element.getAttribute('containerstyle');
+                                    if (containerStyle) return containerStyle;
+
+                                    const width = element.getAttribute('width');
+                                    let result = width
+                                        ? `width: ${width}px; height: auto; cursor: pointer;`
+                                        : (element.style.cssText || null);
+
+                                    const style = element.getAttribute('style') || '';
+                                    const marginMatch = style.match(/margin:\s*([^;]+)/);
+                                    if (result && marginMatch) {
+                                        result += ` margin: ${marginMatch[1].trim()};`;
+                                    }
+
+                                    return result;
+                                },
+                            },
                             "tt-mode": {
                                 default: "file",
+                                renderHTML: () => ({}),
                             },
                             "tt-link-url": {
                                 default: "",
+                                renderHTML: () => ({}),
                             },
                             "tt-link-target": {
                                 default: "",
+                                renderHTML: () => ({}),
                             },
                             "tt-link-mode": {
                                 default: "url",
+                                renderHTML: () => ({}),
                             },
                             class: String,
                             title: String,
                             alt: String,
                         };
                     },
+                    renderHTML({ HTMLAttributes }) {
+                        const { containerStyle, wrapperStyle, ...attrs } = HTMLAttributes;
+
+                        if (containerStyle) {
+                            const widthMatch = containerStyle.match(/width:\s*([0-9.]+)px/);
+                            if (widthMatch) {
+                                attrs.width = Math.round(parseFloat(widthMatch[1]));
+                            }
+
+                            const marginMatch = containerStyle.match(/margin:\s*([^;]+)/);
+                            if (marginMatch) {
+                                const margin = marginMatch[1].trim();
+                                if (margin !== '0px') {
+                                    attrs.style = `display: block; margin: ${margin};`;
+                                }
+                            }
+                        }
+
+                        return ['img', attrs];
+                    },
                 }),
                 Dropcursor,
-                ImageResize,
             ];
 
             if (
