@@ -57,6 +57,8 @@ export default {
                 return ['fas', 'superscript'];
             } else if (this.button == 'paragraph') {
                 return ['fas', 'paragraph'];
+            } else if (this.button == 'lead') {
+                return ['fas', 'text-height'];
             }
 
             return null;
@@ -100,6 +102,8 @@ export default {
                 command.toggleBlockquote();
             } else if (this.button == 'aside') {
                 command.toggleAside();
+            } else if (this.button == 'lead') {
+                command.toggleLead();
             } else if (this.button == 'bulletList') {
                 command.toggleBulletList();
             } else if (this.button == 'orderedList') {

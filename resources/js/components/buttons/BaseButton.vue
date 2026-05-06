@@ -88,7 +88,8 @@ import {
     faA,
     faSwatchbook,
     faDropletSlash,
-    faPenFancy
+    faPenFancy,
+    faTextHeight
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -121,7 +122,8 @@ library.add(
     faA,
     faSwatchbook,
     faDropletSlash,
-    faPenFancy
+    faPenFancy,
+    faTextHeight
 );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

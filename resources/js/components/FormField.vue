@@ -253,6 +253,7 @@
     import GalleryContentBlockExtension from "./content-blocks/GalleryContentBlockExtension.js";
     import BackgroundColorExtension from "../extensions/BackgroundColor.js";
     import AsideExtension from "../extensions/AsideExtension.js";
+    import LeadExtension from "../extensions/LeadExtension.js";
 
     export default {
         mixins: [
@@ -541,6 +542,7 @@
                         };
                     },
                 }),
+                LeadExtension,
                 BulletList.extend({
                     addAttributes() {
                         return {
