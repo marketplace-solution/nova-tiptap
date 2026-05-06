@@ -830,26 +830,43 @@
 
             blockquote {
                 display: block;
-                margin-top: 1.5em;
-                margin-bottom: 1.5em;
-                padding: 12px;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                padding: 1rem;
                 border-left: 2px solid #3b82f6;
                 background-color: #f3f4f6;
+                ul, p {
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
             }
 
             aside {
-                display: block;
-                margin-top: 1.5em;
-                margin-bottom: 1.5em;
-                padding: 16px;
-                border: 2px solid rgba(59, 130, 246, 0.25);
-                border-radius: 8px;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            }
-
-            aside > :first-child {
-                margin-top: 0;
-                padding-top: 0;
+                display: block !important;
+                padding: 1rem !important;
+                margin-top: 1.5rem !important;
+                margin-bottom: 1.5rem !important;
+                border: 2px solid rgba(59, 130, 246, 0.25) !important;
+                border-radius: 0.5rem !important;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+                background: none !important;
+                > :first-child:is(h1, h2, h3, h4, h5, h6) {
+                    margin-top: 0;
+                    padding-top: 0;
+                    padding-bottom: .5rem;
+                    margin-bottom: .75rem;
+                    border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+                    font-size: 1.1rem;
+                }
+                ul {
+                    padding-left: 1.2rem;
+                }
+                ul, p {
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
             }
 
             div.lead {
