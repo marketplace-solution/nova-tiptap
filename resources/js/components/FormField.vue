@@ -765,19 +765,26 @@
                 font-size: 3em;
             }
             h2 {
-                font-size: 2.4em;
+                font-size: 1.6em;
+                font-weight: 600;
             }
             h3 {
-                font-size: 1.8em;
+                font-size: 1.3em;
             }
             h4 {
-                font-size: 1.5em;
+                text-transform: uppercase;
+                font-size: 0.9em;
             }
             h5 {
-                font-size: 1.3em;
+                font-size: 0.9em;
             }
             h6 {
                 font-size: 1.1em;
+            }
+
+            h2, h3, h4, h5, h6 {
+                margin-top: 1em;
+                padding-top: 0.4em;
             }
 
             h1,
@@ -813,6 +820,7 @@
             h6:first-child,
             blockquote:first-child,
             aside:first-child,
+            div.lead:first-child,
             ul:first-child,
             ol:first-child,
             table:first-child,
@@ -824,18 +832,31 @@
                 display: block;
                 margin-top: 1.5em;
                 margin-bottom: 1.5em;
-                padding-left: 15px;
-                border-left: 3px solid #dddddd;
+                padding: 12px;
+                border-left: 2px solid #3b82f6;
+                background-color: #f3f4f6;
             }
 
             aside {
                 display: block;
                 margin-top: 1.5em;
                 margin-bottom: 1.5em;
-                padding: 15px;
-                border-left: 3px solid #3b82f6;
-                background-color: #eff6ff;
-                border-radius: 0 4px 4px 0;
+                padding: 16px;
+                border: 2px solid rgba(59, 130, 246, 0.25);
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            aside > :first-child {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            div.lead {
+                font-size: 1.25rem;
+                font-weight: 300;
+                margin-top: 1.5em;
+                margin-bottom: 1.5em;
             }
 
             a {
@@ -844,6 +865,7 @@
 
             ul {
                 padding-left: 16px;
+                margin: 1em 0;
 
                 li {
                     list-style: disc;
@@ -852,6 +874,7 @@
 
             ol {
                 padding-left: 16px;
+                margin: 1em 0;
 
                 li {
                     list-style: numeric;
