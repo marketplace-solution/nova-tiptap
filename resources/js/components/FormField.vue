@@ -252,7 +252,7 @@
     import VideoContentBlockExtension from "./content-blocks/VideoContentBlockExtension.js";
     import GalleryContentBlockExtension from "./content-blocks/GalleryContentBlockExtension.js";
     import BackgroundColorExtension from "../extensions/BackgroundColor.js";
-    import AsideExtension from "../extensions/AsideExtension.js";
+    import InfoExtension from "../extensions/InfoExtension.js";
     import LeadExtension from "../extensions/LeadExtension.js";
 
     export default {
@@ -534,7 +534,7 @@
                         };
                     },
                 }),
-                AsideExtension.extend({
+                InfoExtension.extend({
                     addAttributes() {
                         return {
                             ...this.parent?.(),
@@ -752,7 +752,7 @@
             h5,
             h6,
             blockquote,
-            aside,
+            div.info,
             ul,
             ol,
             table,
@@ -819,7 +819,7 @@
             h5:first-child,
             h6:first-child,
             blockquote:first-child,
-            aside:first-child,
+            div.info:first-child,
             div.lead:first-child,
             ul:first-child,
             ol:first-child,
@@ -842,7 +842,7 @@
                 }
             }
 
-            aside {
+            div.info {
                 display: block !important;
                 padding: 1rem !important;
                 margin-top: 1.5rem !important;

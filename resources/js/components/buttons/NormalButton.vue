@@ -71,7 +71,7 @@ export default {
                 return '<span> &lt;/&gt; </span>';
             } else if (this.button == 'hardBreak') {
                 return '<span> BR </span>';
-            } else if (this.button == 'aside') {
+            } else if (this.button == 'info') {
                 return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" style="vertical-align:middle;display:inline-block"><circle cx="8" cy="8" r="7.5" stroke="currentColor" stroke-width="1" fill="none"/><text x="8" y="12" text-anchor="middle" font-size="11" font-weight="700" font-family="serif" fill="currentColor">i</text></svg>';
             }
 
@@ -100,8 +100,8 @@ export default {
                 command.toggleSuperscript();
             } else if (this.button == 'blockquote') {
                 command.toggleBlockquote();
-            } else if (this.button == 'aside') {
-                command.toggleAside();
+            } else if (this.button == 'info') {
+                command.toggleInfo();
             } else if (this.button == 'lead') {
                 command.toggleLead();
             } else if (this.button == 'bulletList') {

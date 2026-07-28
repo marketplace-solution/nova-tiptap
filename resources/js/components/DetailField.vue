@@ -47,7 +47,7 @@ export default {
     background-color: #f3f4f6;
 }
 
-.tiptap-detail-content :deep(aside) {
+.tiptap-detail-content :deep(div.info) {
     display: block;
     padding: 1rem;
     margin: 1.5rem 0;
@@ -56,7 +56,7 @@ export default {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.tiptap-detail-content :deep(aside > :first-child:is(h1, h2, h3, h4, h5, h6)) {
+.tiptap-detail-content :deep(div.info > :first-child:is(h1, h2, h3, h4, h5, h6)) {
     margin-top: 0;
     padding-top: 0;
     padding-bottom: .5rem;

@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 
 export default Node.create({
-    name: 'aside',
+    name: 'info',
 
     group: 'block',
 
@@ -10,16 +10,18 @@ export default Node.create({
     defining: true,
 
     parseHTML() {
-        return [{ tag: 'aside' }]
+        return [
+            { tag: 'div.info' },
+        ]
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['aside', mergeAttributes(HTMLAttributes), 0]
+        return ['div', mergeAttributes(HTMLAttributes, { class: 'info' }), 0]
     },
 
     addCommands() {
         return {
-            toggleAside: () => ({ commands }) => {
+            toggleInfo: () => ({ commands }) => {
                 return commands.toggleWrap(this.name)
             },
         }
@@ -27,7 +29,7 @@ export default Node.create({
 
     addKeyboardShortcuts() {
         return {
-            'Mod-Shift-a': () => this.editor.commands.toggleAside(),
+            'Mod-Shift-a': () => this.editor.commands.toggleInfo(),
         }
     },
 })
