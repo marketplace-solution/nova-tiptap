@@ -133,6 +133,7 @@
                             rel: String,
                             title: String,
                             download: String,
+                            obf: String,
                         };
                     },
                 }),

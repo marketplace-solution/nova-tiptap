@@ -163,7 +163,7 @@
 
                         <div
                             class="mt-3"
-                            style="display: grid; grid-template-columns: 1fr 1fr 1fr;"
+                            style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;"
                         >
                             <div class="flex items-center">
                                 <Checkbox
@@ -203,6 +203,20 @@
                                     class="text-sm ml-2"
                                     :for="'noreferrer_' + field.attribute"
                                     v-text="'noreferrer'"
+                                >
+                                </label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <Checkbox
+                                    @input="obf = !obf"
+                                    :id="'obf_' + field.attribute"
+                                    :checked="obf"
+                                />
+                                <label
+                                    class="text-sm ml-2"
+                                    :for="'obf_' + field.attribute"
+                                    v-text="'obf'"
                                 >
                                 </label>
                             </div>
@@ -288,6 +302,7 @@ export default {
             nofollow: false,
             noopener: false,
             noreferrer: false,
+            obf: false,
         };
     },
 
@@ -330,12 +345,14 @@ export default {
                 this.nofollow = attributes.rel && attributes.rel.indexOf("nofollow") > -1 ? true : false;
                 this.noopener = attributes.rel && attributes.rel.indexOf("noopener") > -1 ? true : false;
                 this.noreferrer = attributes.rel && attributes.rel.indexOf("noreferrer") > -1 ? true : false;
+                this.obf = attributes.obf ? true : false;
             } else {
                 this.url = "";
                 this.openInNewWindow = false;
                 this.nofollow = false;
                 this.noopener = false;
                 this.noreferrer = false;
+                this.obf = false;
                 this.linkMode = "url";
                 this.extraClasses = "";
                 this.title = "";
@@ -439,6 +456,9 @@ export default {
             }
             if (this.title) {
                 attributes.title = this.title;
+            }
+            if (this.obf) {
+                attributes.obf = "1";
             }
             if (this.nofollow || this.noopener || this.noreferrer) {
                 attributes.rel = "";
