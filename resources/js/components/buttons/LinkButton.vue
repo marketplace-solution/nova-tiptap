@@ -345,7 +345,7 @@ export default {
                 this.nofollow = attributes.rel && attributes.rel.indexOf("nofollow") > -1 ? true : false;
                 this.noopener = attributes.rel && attributes.rel.indexOf("noopener") > -1 ? true : false;
                 this.noreferrer = attributes.rel && attributes.rel.indexOf("noreferrer") > -1 ? true : false;
-                this.obf = attributes.obf ? true : false;
+                this.obf = attributes.obf != null && attributes.obf !== false;
             } else {
                 this.url = "";
                 this.openInNewWindow = false;

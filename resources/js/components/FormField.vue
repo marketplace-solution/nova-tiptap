@@ -505,7 +505,13 @@
                             rel: String,
                             title: String,
                             download: String,
-                            obf: String,
+                            obf: {
+                                default: null,
+                                // Liens historiques stockés avec l'attribut sans valeur (<a obf>) :
+                                // getAttribute renvoie "" (falsy) — normaliser la présence en "1"
+                                parseHTML: (element) =>
+                                    element.hasAttribute("obf") ? "1" : null,
+                            },
                         };
                     },
                 }),
@@ -800,6 +806,11 @@
             a {
                 color: #0ea5e9;
                 text-decoration: underline;
+            }
+
+            a[obf] {
+                text-decoration-style: dotted;
+                text-underline-offset: 2px;
             }
 
             pre {

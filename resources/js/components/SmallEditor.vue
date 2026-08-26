@@ -133,7 +133,13 @@
                             rel: String,
                             title: String,
                             download: String,
-                            obf: String,
+                            obf: {
+                                default: null,
+                                // Liens historiques stockés avec l'attribut sans valeur (<a obf>) :
+                                // getAttribute renvoie "" (falsy) — normaliser la présence en "1"
+                                parseHTML: (element) =>
+                                    element.hasAttribute("obf") ? "1" : null,
+                            },
                         };
                     },
                 }),
