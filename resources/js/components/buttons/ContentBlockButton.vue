@@ -102,7 +102,12 @@ export default {
         addBlock(block) {
             let content = '';
             let key = String(_.random(0, 999))+String(Date.now());
-            content += '<'+block.key+'-content-block key="'+key+'" imageDisk="'+this.imageDisk+'" imagePath="'+this.imagePath+'"></'+block.key+'-content-block>';
+            let tag = (block.tag || block.key)+'-content-block';
+            let extraAttributes = '';
+            _.each(block.attrs || {}, (value, name) => {
+                extraAttributes += ' '+name+'="'+_.escape(value)+'"';
+            });
+            content += '<'+tag+' key="'+key+'"'+extraAttributes+' imageDisk="'+this.imageDisk+'" imagePath="'+this.imagePath+'"></'+tag+'>';
 
 
             this.editor

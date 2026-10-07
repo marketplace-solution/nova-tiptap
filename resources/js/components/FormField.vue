@@ -251,6 +251,7 @@
     import PlaceholderBlockExtension from "../extensions/PlaceholderBlockExtension.js";
     import VideoContentBlockExtension from "./content-blocks/VideoContentBlockExtension.js";
     import GalleryContentBlockExtension from "./content-blocks/GalleryContentBlockExtension.js";
+    import WidgetContentBlockExtension from "./content-blocks/WidgetContentBlockExtension.js";
     import BackgroundColorExtension from "../extensions/BackgroundColor.js";
     import InfoExtension from "../extensions/InfoExtension.js";
     import LeadExtension from "../extensions/LeadExtension.js";
@@ -494,6 +495,7 @@
                 }),
                 VideoContentBlockExtension,
                 GalleryContentBlockExtension,
+                WidgetContentBlockExtension,
                 Link.extend({
                     addAttributes() {
                         return {
