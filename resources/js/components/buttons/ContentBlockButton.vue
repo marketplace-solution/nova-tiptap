@@ -13,27 +13,63 @@
                 class="rounded-lg shadow-lg overflow-hidden w-action-fields max-w-full"
                 style="z-index: 20"
             >
-                <div class="px-8 py-8 bg-white">
-                    <p
-                        v-text="__('which content block do you want to add')+':'"
-                        class="mb-4"
-                    />
+                <div class="px-8 py-8 bg-white" style="background: #ffffff;">
+                    <div
+                        style="
+                            font-weight: 700;
+                            font-size: 1rem;
+                            color: #1e293b;
+                            margin-bottom: 16px;
+                        "
+                    >
+                        Ajouter un bloc
+                    </div>
                     <div
                         class="max-h-search overflow-auto"
                     >
-                        <div
+                        <button
                             v-for="block in field.contentBlocks"
                             :key="block.key"
-                            class="mb-2"
+                            type="button"
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                width: 100%;
+                                text-align: left;
+                                background: #ffffff;
+                                border: 1px solid #e2e8f0;
+                                border-radius: 8px;
+                                padding: 12px 16px;
+                                margin-bottom: 8px;
+                                cursor: pointer;
+                            "
+                            :style="{ borderLeft: '4px solid ' + (block.accent || '#4f46e5') }"
+                            @click="addBlock(block)"
+                            @mouseover="hoveredKey = block.key"
+                            @mouseleave="hoveredKey = null"
+                            :class="{ 'bg-gray-50': hoveredKey === block.key }"
                         >
-                            <button
-                                type="button"
-                                class="btn btn-default btn-primary"
-                                @click="addBlock(block)"
-                                v-text="block.title"
-                            >
-                            </button>
-                        </div>
+                            <span style="font-size: 1.6rem; line-height: 1;" v-text="block.icon || '🧩'"></span>
+                            <span style="flex: 1; min-width: 0;">
+                                <span
+                                    style="
+                                        display: block;
+                                        font-weight: 700;
+                                        font-size: 0.85rem;
+                                        text-transform: uppercase;
+                                        letter-spacing: 0.03em;
+                                        color: #334155;
+                                    "
+                                    v-text="block.title"
+                                ></span>
+                                <span
+                                    v-if="block.description"
+                                    style="display: block; font-size: 0.85rem; color: #64748b; margin-top: 2px;"
+                                    v-text="block.description"
+                                ></span>
+                            </span>
+                        </button>
                     </div>
                 </div>
 
@@ -91,6 +127,7 @@ export default {
         return {
             menuIsActive: false,
             blockKey: 'default',
+            hoveredKey: null,
         }
     },
 
