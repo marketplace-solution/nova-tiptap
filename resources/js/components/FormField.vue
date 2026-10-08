@@ -175,6 +175,12 @@
                 <div class="w-full px-0 mt-3" v-show="mode == 'html'">
                     <edit-html :theme="htmlTheme" v-model="htmlModeValue" />
                 </div>
+
+                <toc-preview
+                    v-if="currentField.tocPreview"
+                    :editor="editor"
+                    :visible="mode == 'editor'"
+                ></toc-preview>
             </div>
         </template>
     </default-field>
@@ -237,6 +243,7 @@
 
     import CodeBlockComponent from "./CodeBlockComponent";
     import EditHtml from "./EditHtml";
+    import TocPreview from "./TocPreview";
 
     import Gapcursor from "@tiptap/extension-gapcursor";
 
@@ -282,6 +289,7 @@
             ContentBlockButton,
             EditHtml,
             BaseButton,
+            TocPreview,
         },
 
         data() {
