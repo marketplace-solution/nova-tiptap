@@ -51,6 +51,7 @@
 
                             <template v-else-if="button == 'image'">
                                 <image-button
+                                    ref="imageButton"
                                     :editor="editor"
                                     :button="button"
                                     :field="currentField"
@@ -254,6 +255,9 @@
     import contentSanitizer from "../mixins/contentSanitizer";
 
     import { DependentFormField, HandlesValidationErrors } from "laravel-nova";
+
+    // Marqueur de debug : vérifier en console que le bundle chargé est le bon
+    window.__novaTiptapVersion = "5.8.20";
 
     import PlaceholderBlockExtension from "../extensions/PlaceholderBlockExtension.js";
     import VideoContentBlockExtension from "./content-blocks/VideoContentBlockExtension.js";
@@ -645,6 +649,9 @@
                                 default: "url",
                                 renderHTML: () => ({}),
                             },
+                            "data-caption": {
+                                default: null,
+                            },
                             class: String,
                             title: String,
                             alt: String,
@@ -693,11 +700,92 @@
 
             const context = this;
 
+            // La node view de tiptap-extension-resize-image consomme mousedown et
+            // stoppe la propagation des clics : ni les hooks ProseMirror
+            // (handleClickOn/handleDoubleClickOn) ni handleDOMEvents (bubble) ne
+            // voient les clics sur une image. Seule la phase de CAPTURE sur la
+            // racine de l'éditeur passe avant les handlers du nodeview. Détection
+            // par coordonnées (posAtCoords) : fonctionne aussi quand le clic touche
+            // un overlay du nodeview plutôt que l'<img> elle-même.
+            // tiptap-extension-resize-image renomme le node Image en `imageResize`
+            // (les bodies stockés contiennent ce type) — toujours tester les deux noms
+            const isImageNode = (node) =>
+                node && ["image", "imageResize"].includes(node.type.name);
+
+            const imageNodePosFromEvent = (event) => {
+                const view = context.editor?.view;
+
+                if (!view) {
+                    return null;
+                }
+
+                const coords = view.posAtCoords({
+                    left: event.clientX,
+                    top: event.clientY,
+                });
+
+                if (!coords) {
+                    return null;
+                }
+
+                if (coords.inside >= 0 && isImageNode(view.state.doc.nodeAt(coords.inside))) {
+                    return coords.inside;
+                }
+
+                const $pos = view.state.doc.resolve(coords.pos);
+
+                if (isImageNode($pos.nodeAfter)) {
+                    return coords.pos;
+                }
+
+                if (isImageNode($pos.nodeBefore)) {
+                    return coords.pos - $pos.nodeBefore.nodeSize;
+                }
+
+                return null;
+            };
+
             this.editor = new Editor({
                 extensions: extensions,
                 content: this.contentWithTrailingParagraph,
                 editable: !this.currentField.readonly,
                 onCreate() {
+                    // Clic : NodeSelection (bouton toolbar en mode « Modifier
+                    // image ») ; double-clic : réouverture de la modal pré-remplie
+                    this.view.dom.addEventListener(
+                        "click",
+                        (event) => {
+                            const pos = imageNodePosFromEvent(event);
+
+                            if (pos === null) {
+                                return;
+                            }
+
+                            context.editor.commands.setNodeSelection(pos);
+                        },
+                        true
+                    );
+
+                    this.view.dom.addEventListener(
+                        "dblclick",
+                        (event) => {
+                            const pos = imageNodePosFromEvent(event);
+
+                            if (pos === null) {
+                                return;
+                            }
+
+                            context.editor.commands.setNodeSelection(pos);
+
+                            const button = Array.isArray(context.$refs.imageButton)
+                                ? context.$refs.imageButton[0]
+                                : context.$refs.imageButton;
+                            button?.showImageMenu();
+
+                            event.preventDefault();
+                        },
+                        true
+                    );
                     try {
                         let content = JSON.parse(context.value);
                         let sanitizedContent =

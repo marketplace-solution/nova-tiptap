@@ -314,9 +314,16 @@ export default {
         },
 
         linkCanBeUsed() {
-            return this.editor
-                ? this.mode == "editor" && !this.editor.isActive("image")
-                : true;
+            if (!this.editor) {
+                return true;
+            }
+
+            // Le node image s'appelle `imageResize` (tiptap-extension-resize-image)
+            const imageActive = ["image", "imageResize"].some((name) =>
+                this.editor.isActive(name)
+            );
+
+            return this.mode == "editor" && !imageActive;
         },
 
         withFileUpload() {
