@@ -82,42 +82,78 @@
                         <div
                             v-for="(field, index) in visibleFields"
                             :key="field.attr"
-                            :class="{ 'mt-3': index > 0 }"
+                            :style="{ marginTop: index > 0 ? '18px' : '0' }"
                         >
                             <label
-                                class="text-sm mb-1 ml-1"
-                                style="display: block; margin-bottom: 4px;"
+                                style="
+                                    display: block;
+                                    font-weight: 600;
+                                    font-size: 0.85rem;
+                                    color: #334155;
+                                    margin-bottom: 6px;
+                                "
                                 v-text="field.label"
                             ></label>
 
-                            <select
+                            <div
                                 v-if="field.input === 'select'"
-                                class="
-                                    form-input
-                                    form-input-bordered
-                                    px-2 py-1 w-full
-                                    text-sm text-90
-                                    leading-none
-                                "
-                                v-model="values[field.attr]"
+                                style="display: flex; gap: 8px; flex-wrap: wrap;"
                             >
-                                <option
+                                <button
                                     v-for="option in field.options"
                                     :key="option.value"
-                                    :value="option.value"
-                                    v-text="option.label"
-                                />
-                            </select>
+                                    type="button"
+                                    style="
+                                        flex: 1;
+                                        min-width: 130px;
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        gap: 4px;
+                                        padding: 12px 10px;
+                                        border-radius: 8px;
+                                        cursor: pointer;
+                                        background: #ffffff;
+                                        border: 2px solid #e2e8f0;
+                                        color: #334155;
+                                    "
+                                    :style="values[field.attr] === option.value ? {
+                                        borderColor: config.accent,
+                                        background: '#f8fafc',
+                                    } : {}"
+                                    @click="values[field.attr] = option.value"
+                                >
+                                    <span
+                                        v-if="option.icon"
+                                        style="font-size: 1.5rem; line-height: 1;"
+                                        v-text="option.icon"
+                                    ></span>
+                                    <span
+                                        style="font-size: 0.85rem; font-weight: 700; text-align: center;"
+                                        v-text="option.label"
+                                    ></span>
+                                    <span
+                                        v-if="option.hint"
+                                        style="font-size: 0.72rem; color: #64748b; text-align: center; line-height: 1.3;"
+                                        v-text="option.hint"
+                                    ></span>
+                                </button>
+                            </div>
 
                             <input
                                 v-else
                                 :type="field.input === 'number' ? 'number' : 'text'"
-                                class="
-                                    form-input
-                                    form-input-bordered
-                                    px-2 py-1 w-full
-                                    text-sm text-90
-                                    leading-none
+                                :min="field.min"
+                                :max="field.max"
+                                :placeholder="field.placeholder || ''"
+                                style="
+                                    width: 100%;
+                                    border: 1px solid #cbd5e1;
+                                    border-radius: 8px;
+                                    padding: 9px 12px;
+                                    font-size: 0.9rem;
+                                    color: #1e293b;
+                                    background: #ffffff;
                                 "
                                 v-model="values[field.attr]"
                             />
@@ -125,11 +161,19 @@
                     </div>
                 </div>
 
-                <div class="bg-30 px-6 py-3" style="background: #f1f5f9;">
+                <div class="px-6 py-3" style="background: #f1f5f9;">
                     <div class="flex items-center justify-end">
                         <button
                             type="button"
-                            class="btn h-9 px-3 font-normal text-80"
+                            style="
+                                background: none;
+                                border: none;
+                                cursor: pointer;
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                color: #64748b;
+                                padding: 8px 14px;
+                            "
                             @click="hideMenu"
                             v-text="trans('cancel')"
                         >
@@ -137,7 +181,17 @@
 
                         <button
                             type="button"
-                            class="ml-3 btn btn-default btn-primary"
+                            style="
+                                border: none;
+                                cursor: pointer;
+                                font-size: 0.9rem;
+                                font-weight: 700;
+                                color: #ffffff;
+                                border-radius: 8px;
+                                padding: 9px 18px;
+                                margin-left: 10px;
+                            "
+                            :style="{ background: config.accent }"
                             @click="update()"
                             v-text="trans('update')"
                         >

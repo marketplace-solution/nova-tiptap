@@ -6,6 +6,12 @@
  *
  * Field attrs must be lowercase: DOM serialization lowercases attribute
  * names when the node is stored as HTML.
+ *
+ * Field shapes:
+ * - input 'select': rendered as visual option tiles — options need
+ *   { value, label, icon } (icon optional).
+ * - input 'text' / 'number': label + placeholder + optional min/max.
+ * - showIf: { attr: value } — field only visible when matching.
  */
 export default {
     getyourguide: {
@@ -25,26 +31,28 @@ export default {
         fields: [
             {
                 attr: 'mode',
-                label: 'Mode',
+                label: 'Quelles activités afficher ?',
                 input: 'select',
                 default: 'search',
                 options: [
-                    { value: 'search', label: 'Recherche (vide = destination du post)' },
-                    { value: 'tours', label: 'Activités précises (IDs)' },
+                    { value: 'search', label: 'Recherche', icon: '🔍', hint: 'Les meilleures activités de la destination' },
+                    { value: 'tours', label: 'Activités précises', icon: '🎯', hint: 'Une liste d\'IDs GetYourGuide' },
                 ],
             },
             {
                 attr: 'query',
-                label: 'Recherche (laisser vide pour la destination du post)',
+                label: 'Recherche',
                 input: 'text',
                 default: '',
+                placeholder: 'Vide = destination du post',
                 showIf: { mode: 'search' },
             },
             {
                 attr: 'tourids',
-                label: 'IDs des activités, séparés par des virgules (ex : 123456,654321)',
+                label: 'IDs des activités',
                 input: 'text',
                 default: '',
+                placeholder: 'Ex : 123456,654321 (séparés par des virgules)',
                 showIf: { mode: 'tours' },
             },
             {
@@ -52,6 +60,9 @@ export default {
                 label: 'Nombre d\'activités',
                 input: 'number',
                 default: '3',
+                min: 1,
+                max: 9,
+                showIf: { mode: 'search' },
             },
         ],
     },
@@ -62,7 +73,7 @@ export default {
         accent: '#0ea5e9',
         summarize(attrs) {
             const displayLabels = {
-                card: 'Carte hébergements (destination du post)',
+                card: 'Carte hébergements',
                 list: 'Mini-liste d\'établissements',
                 button: 'Bouton simple',
             };
@@ -82,16 +93,17 @@ export default {
                 input: 'select',
                 default: 'card',
                 options: [
-                    { value: 'card', label: 'Carte hébergements (destination du post)' },
-                    { value: 'list', label: 'Mini-liste d\'établissements' },
-                    { value: 'button', label: 'Bouton simple' },
+                    { value: 'card', label: 'Carte', icon: '🪧', hint: 'Encart cliquable avec titre' },
+                    { value: 'list', label: 'Mini-liste', icon: '🛏️', hint: '3 hébergements de la destination' },
+                    { value: 'button', label: 'Bouton', icon: '👆', hint: 'Simple bouton centré' },
                 ],
             },
             {
                 attr: 'title',
-                label: 'Titre personnalisé (optionnel)',
+                label: 'Titre personnalisé',
                 input: 'text',
                 default: '',
+                placeholder: 'Optionnel : remplace le titre par défaut',
             },
         ],
     },

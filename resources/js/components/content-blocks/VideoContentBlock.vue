@@ -81,56 +81,77 @@
                     <div class="flex flex-col">
                         <div>
                             <label
-                                class="text-sm mb-1 ml-1"
-                                style="display: block; margin-bottom: 4px;"
+                                style="
+                                    display: block;
+                                    font-weight: 600;
+                                    font-size: 0.85rem;
+                                    color: #334155;
+                                    margin-bottom: 6px;
+                                "
                                 v-text="trans('embed code')"
                             ></label>
                             <textarea
-                                class="
-                                    form-input
-                                    form-input-bordered
-                                    h-32
-                                    px-2 py-1 w-full
-                                    text-sm text-90
-                                    leading-none
+                                style="
+                                    width: 100%;
+                                    border: 1px solid #cbd5e1;
+                                    border-radius: 8px;
+                                    padding: 9px 12px;
+                                    font-size: 0.9rem;
+                                    color: #1e293b;
+                                    background: #ffffff;
                                 "
+                                rows="5"
                                 v-model="embedCode"
                             />
                         </div>
 
                         <div class="mt-3">
                             <label
-                                class="text-sm mb-1 ml-1"
-                                style="display: block; margin-bottom: 4px;"
+                                style="
+                                    display: block;
+                                    font-weight: 600;
+                                    font-size: 0.85rem;
+                                    color: #334155;
+                                    margin-bottom: 6px;
+                                "
                                 v-text="trans('caption')"
                             ></label>
                             <textarea
-                                class="
-                                    form-input
-                                    form-input-bordered
-                                    h-16
-                                    px-2 py-1 w-full
-                                    text-sm text-90
-                                    leading-none
+                                style="
+                                    width: 100%;
+                                    border: 1px solid #cbd5e1;
+                                    border-radius: 8px;
+                                    padding: 9px 12px;
+                                    font-size: 0.9rem;
+                                    color: #1e293b;
+                                    background: #ffffff;
                                 "
+                                rows="2"
                                 v-model="caption"
                             />
                         </div>
 
                         <div class="mt-3">
                             <label
-                                class="text-sm mb-1 ml-1"
-                                style="display: block; margin-bottom: 4px;"
+                                style="
+                                    display: block;
+                                    font-weight: 600;
+                                    font-size: 0.85rem;
+                                    color: #334155;
+                                    margin-bottom: 6px;
+                                "
                                 v-text="trans('credits')"
                             ></label>
                             <input
                                 type="text"
-                                class="
-                                    form-input
-                                    form-input-bordered
-                                    px-2 py-1 w-full
-                                    text-sm text-90
-                                    leading-none
+                                style="
+                                    width: 100%;
+                                    border: 1px solid #cbd5e1;
+                                    border-radius: 8px;
+                                    padding: 9px 12px;
+                                    font-size: 0.9rem;
+                                    color: #1e293b;
+                                    background: #ffffff;
                                 "
                                 v-model="credits"
                             />
@@ -138,36 +159,52 @@
 
                         <div class="mt-3">
                             <label
-                                class="text-sm mb-1 ml-1"
-                                style="display: block; margin-bottom: 4px;"
+                                style="
+                                    display: block;
+                                    font-weight: 600;
+                                    font-size: 0.85rem;
+                                    color: #334155;
+                                    margin-bottom: 6px;
+                                "
                                 v-text="trans('ratio')"
                             ></label>
-                            <select
-                                class="
-                                    form-input
-                                    form-input-bordered
-                                    px-2 py-1 w-full
-                                    text-sm text-90
-                                    leading-none
-                                "
-                                v-model="ratio"
-                            >
-                                <option
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <button
                                     v-for="ratioOption in ratioOptions"
                                     :key="ratioOption"
-                                    :value="ratioOption"
+                                    type="button"
+                                    style="
+                                        padding: 7px 14px;
+                                        border-radius: 999px;
+                                        cursor: pointer;
+                                        background: #ffffff;
+                                        border: 2px solid #e2e8f0;
+                                        font-size: 0.85rem;
+                                        font-weight: 600;
+                                        color: #334155;
+                                    "
+                                    :style="ratio === ratioOption ? { borderColor: '#8b5cf6', background: '#f8fafc' } : {}"
+                                    @click="ratio = ratioOption"
                                     v-text="ratioOption"
                                 />
-                            </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-30 px-6 py-3" style="background: #f1f5f9;">
+                <div class="px-6 py-3" style="background: #f1f5f9;">
                     <div class="flex items-center justify-end">
                         <button
                             type="button"
-                            class="btn h-9 px-3 font-normal text-80"
+                            style="
+                                background: none;
+                                border: none;
+                                cursor: pointer;
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                color: #64748b;
+                                padding: 8px 14px;
+                            "
                             @click="hideMenu"
                             v-text="trans('cancel')"
                         >
@@ -175,7 +212,17 @@
 
                         <button
                             type="button"
-                            class="ml-3 btn btn-default btn-primary"
+                            style="
+                                border: none;
+                                cursor: pointer;
+                                font-size: 0.9rem;
+                                font-weight: 700;
+                                color: #ffffff;
+                                background: #8b5cf6;
+                                border-radius: 8px;
+                                padding: 9px 18px;
+                                margin-left: 10px;
+                            "
                             @click="update()"
                             v-text="trans('update')"
                         >
