@@ -63,10 +63,10 @@
             v-show="menuIsActive"
         >
             <div
-                class="rounded-lg shadow-lg overflow-hidden w-action-fields max-w-full"
-                style="z-index: 20"
+                class="rounded-lg shadow-lg overflow-hidden max-w-full"
+                style="z-index: 20; width: min(840px, calc(100vw - 48px));"
             >
-                <div class="px-8 py-8 bg-white" style="background: #ffffff;">
+                <div style="background: #ffffff; padding: 28px 32px; max-height: calc(100vh - 160px); overflow-y: auto;">
                     <div
                         style="
                             font-weight: 700;
@@ -93,14 +93,19 @@
                             <textarea
                                 style="
                                     width: 100%;
-                                    border: 1px solid #cbd5e1;
+                                    border: 1px solid #334155;
                                     border-radius: 8px;
-                                    padding: 9px 12px;
-                                    font-size: 0.9rem;
-                                    color: #1e293b;
-                                    background: #ffffff;
+                                    padding: 12px 14px;
+                                    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+                                    font-size: 0.82rem;
+                                    line-height: 1.5;
+                                    color: #e2e8f0;
+                                    background: #0f172a;
+                                    min-height: 130px;
                                 "
-                                rows="5"
+                                rows="6"
+                                spellcheck="false"
+                                placeholder='&lt;iframe src="https://..."&gt;&lt;/iframe&gt;'
                                 v-model="embedCode"
                             />
                         </div>
@@ -192,7 +197,7 @@
                     </div>
                 </div>
 
-                <div class="px-6 py-3" style="background: #f1f5f9;">
+                <div style="background: #f1f5f9; padding: 14px 24px;">
                     <div class="flex items-center justify-end">
                         <button
                             type="button"

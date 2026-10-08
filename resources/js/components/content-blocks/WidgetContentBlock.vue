@@ -65,7 +65,7 @@
                 class="rounded-lg shadow-lg overflow-hidden w-action-fields max-w-full"
                 style="z-index: 20"
             >
-                <div class="px-8 py-8 bg-white" style="background: #ffffff;">
+                <div style="background: #ffffff; padding: 28px 32px; max-height: calc(100vh - 160px); overflow-y: auto;">
                     <div
                         style="
                             font-weight: 700;
@@ -161,7 +161,7 @@
                     </div>
                 </div>
 
-                <div class="px-6 py-3" style="background: #f1f5f9;">
+                <div style="background: #f1f5f9; padding: 14px 24px;">
                     <div class="flex items-center justify-end">
                         <button
                             type="button"
