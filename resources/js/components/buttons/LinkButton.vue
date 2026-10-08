@@ -161,63 +161,58 @@
                             v-model="title"
                         />
 
-                        <div
-                            class="mt-3"
-                            style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;"
+                        <label
+                            class="block text-sm mt-8 mb-1 ml-1"
+                            v-text="ttt('link attributes')"
                         >
-                            <div class="flex items-center">
-                                <Checkbox
-                                    @input="nofollow = !nofollow"
-                                    :id="'nofollow_' + field.attribute"
-                                    :checked="nofollow"
-                                />
-                                <label
-                                    class="text-sm ml-2"
-                                    :for="'nofollow_' + field.attribute"
-                                    v-text="'nofollow'"
-                                >
-                                </label>
-                            </div>
+                        </label>
 
-                            <div class="flex items-center">
-                                <Checkbox
-                                    @input="noopener = !noopener"
-                                    :id="'noopener_' + field.attribute"
-                                    :checked="noopener"
-                                />
-                                <label
-                                    class="text-sm ml-2"
-                                    :for="'noopener_' + field.attribute"
-                                    v-text="'noopener'"
-                                >
-                                </label>
-                            </div>
+                        <div
+                            class="rounded-lg bg-gray-100 dark:bg-gray-700"
+                            style="padding: 4px 12px;"
+                        >
+                            <div
+                                v-for="(option, index) in linkAttributeOptions"
+                                :key="option.key"
+                                class="flex"
+                                :style="{
+                                    padding: '10px 0',
+                                    borderBottom: index < linkAttributeOptions.length - 1
+                                        ? '1px solid rgba(125, 125, 125, 0.2)'
+                                        : 'none',
+                                }"
+                            >
+                                <div style="flex-shrink: 0; padding-top: 2px;">
+                                    <Checkbox
+                                        @input="$data[option.key] = !$data[option.key]"
+                                        :id="option.key + '_' + field.attribute"
+                                        :checked="$data[option.key]"
+                                    />
+                                </div>
 
-                            <div class="flex items-center">
-                                <Checkbox
-                                    @input="noreferrer = !noreferrer"
-                                    :id="'noreferrer_' + field.attribute"
-                                    :checked="noreferrer"
-                                />
                                 <label
-                                    class="text-sm ml-2"
-                                    :for="'noreferrer_' + field.attribute"
-                                    v-text="'noreferrer'"
+                                    class="ml-2 cursor-pointer"
+                                    style="flex: 1; min-width: 0;"
+                                    :for="option.key + '_' + field.attribute"
                                 >
-                                </label>
-                            </div>
+                                    <span class="flex items-center">
+                                        <span
+                                            class="text-sm font-bold"
+                                            v-text="option.label"
+                                        ></span>
 
-                            <div class="flex items-center">
-                                <Checkbox
-                                    @input="obf = !obf"
-                                    :id="'obf_' + field.attribute"
-                                    :checked="obf"
-                                />
-                                <label
-                                    class="text-sm ml-2"
-                                    :for="'obf_' + field.attribute"
-                                    v-text="'obf'"
-                                >
+                                        <code
+                                            class="ml-2 bg-white dark:bg-gray-800 rounded"
+                                            style="font-family: ui-monospace, monospace; font-size: 11px; padding: 1px 6px; border: 1px solid rgba(125, 125, 125, 0.25);"
+                                            v-text="option.badge"
+                                        ></code>
+                                    </span>
+
+                                    <span
+                                        class="block help-text"
+                                        style="margin-top: 2px;"
+                                        v-text="option.help"
+                                    ></span>
                                 </label>
                             </div>
                         </div>
@@ -300,6 +295,7 @@ export default {
             linkMode: "url",
             title: "",
             nofollow: false,
+            sponsored: false,
             noopener: false,
             noreferrer: false,
             obf: false,
@@ -324,12 +320,47 @@ export default {
         },
 
         withFileUpload() {
-            return !this.field.linkSettings 
+            return !this.field.linkSettings
                 ||
                 (
                     typeof this.field.linkSettings.withFileUpload != "boolean"
                     || this.field.linkSettings.withFileUpload
                 );
+        },
+
+        linkAttributeOptions() {
+            return [
+                {
+                    key: "nofollow",
+                    badge: 'rel="nofollow"',
+                    label: this.ttt("nofollow label"),
+                    help: this.ttt("nofollow help"),
+                },
+                {
+                    key: "sponsored",
+                    badge: 'rel="sponsored"',
+                    label: this.ttt("sponsored label"),
+                    help: this.ttt("sponsored help"),
+                },
+                {
+                    key: "noopener",
+                    badge: 'rel="noopener"',
+                    label: this.ttt("noopener label"),
+                    help: this.ttt("noopener help"),
+                },
+                {
+                    key: "noreferrer",
+                    badge: 'rel="noreferrer"',
+                    label: this.ttt("noreferrer label"),
+                    help: this.ttt("noreferrer help"),
+                },
+                {
+                    key: "obf",
+                    badge: 'obf="1"',
+                    label: this.ttt("obf label"),
+                    help: this.ttt("obf help"),
+                },
+            ];
         },
     },
 
@@ -343,6 +374,7 @@ export default {
                 this.extraClasses = attributes.class ? attributes.class : "";
                 this.title = attributes.title ? attributes.title : "";
                 this.nofollow = attributes.rel && attributes.rel.indexOf("nofollow") > -1 ? true : false;
+                this.sponsored = attributes.rel && attributes.rel.indexOf("sponsored") > -1 ? true : false;
                 this.noopener = attributes.rel && attributes.rel.indexOf("noopener") > -1 ? true : false;
                 this.noreferrer = attributes.rel && attributes.rel.indexOf("noreferrer") > -1 ? true : false;
                 this.obf = attributes.obf != null && attributes.obf !== false;
@@ -350,6 +382,7 @@ export default {
                 this.url = "";
                 this.openInNewWindow = false;
                 this.nofollow = false;
+                this.sponsored = false;
                 this.noopener = false;
                 this.noreferrer = false;
                 this.obf = false;
@@ -460,18 +493,12 @@ export default {
             if (this.obf) {
                 attributes.obf = "1";
             }
-            if (this.nofollow || this.noopener || this.noreferrer) {
-                attributes.rel = "";
-                if (this.nofollow) {
-                    attributes.rel += "nofollow ";
-                }
-                if (this.noopener) {
-                    attributes.rel += "noopener ";
-                }
-                if (this.noreferrer) {
-                    attributes.rel += "noreferrer ";
-                }
-                attributes.rel = _.trim(attributes.rel);
+            let rel = ["nofollow", "sponsored", "noopener", "noreferrer"]
+                .filter((token) => this[token])
+                .join(" ");
+
+            if (rel) {
+                attributes.rel = rel;
             }
 
             if (this.editor.isActive("image")) {
