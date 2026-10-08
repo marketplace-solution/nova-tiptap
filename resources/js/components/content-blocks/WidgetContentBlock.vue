@@ -3,11 +3,53 @@
         <div
             @click="showMenu"
             class="cursor-pointer"
+            style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                background: #ffffff;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 12px 16px;
+            "
+            :style="{ borderLeft: '4px solid ' + config.accent }"
         >
-            <div
-                class="font-bold"
-                v-text="summary"
-            />
+            <span style="font-size: 1.6rem; line-height: 1;" v-text="config.icon"></span>
+
+            <div style="flex: 1; min-width: 0;">
+                <div
+                    style="
+                        font-weight: 700;
+                        font-size: 0.85rem;
+                        text-transform: uppercase;
+                        letter-spacing: 0.03em;
+                        color: #334155;
+                    "
+                    v-text="config.label"
+                />
+                <div
+                    style="font-size: 0.85rem; color: #64748b; margin-top: 2px;"
+                    v-text="summary"
+                />
+            </div>
+
+            <button
+                type="button"
+                style="
+                    flex-shrink: 0;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color: #334155;
+                    background: #f1f5f9;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 6px;
+                    padding: 5px 12px;
+                    cursor: pointer;
+                "
+                @click.stop="showMenu"
+            >
+                ✏️ Éditer
+            </button>
         </div>
 
         <div
@@ -23,14 +65,30 @@
                 class="rounded-lg shadow-lg overflow-hidden w-action-fields max-w-full"
                 style="z-index: 20"
             >
-                <div class="px-8 py-8 bg-white">
+                <div class="px-8 py-8 bg-white" style="background: #ffffff;">
+                    <div
+                        style="
+                            font-weight: 700;
+                            font-size: 1rem;
+                            color: #1e293b;
+                            margin-bottom: 16px;
+                        "
+                    >
+                        <span v-text="config.icon"></span>
+                        <span v-text="' ' + config.label"></span>
+                    </div>
+
                     <div class="flex flex-col">
                         <div
                             v-for="(field, index) in visibleFields"
                             :key="field.attr"
                             :class="{ 'mt-3': index > 0 }"
                         >
-                            <label class="text-sm mb-1 ml-1" v-text="field.label"></label>
+                            <label
+                                class="text-sm mb-1 ml-1"
+                                style="display: block; margin-bottom: 4px;"
+                                v-text="field.label"
+                            ></label>
 
                             <select
                                 v-if="field.input === 'select'"
@@ -67,13 +125,13 @@
                     </div>
                 </div>
 
-                <div class="bg-30 px-6 py-3">
+                <div class="bg-30 px-6 py-3" style="background: #f1f5f9;">
                     <div class="flex items-center justify-end">
                         <button
                             type="button"
                             class="btn h-9 px-3 font-normal text-80"
                             @click="hideMenu"
-                            v-text="__('cancel')"
+                            v-text="trans('cancel')"
                         >
                         </button>
 
@@ -81,7 +139,7 @@
                             type="button"
                             class="ml-3 btn btn-default btn-primary"
                             @click="update()"
-                            v-text="__('update')"
+                            v-text="trans('update')"
                         >
                         </button>
                     </div>
@@ -93,7 +151,7 @@
                     absolute top-0 left-0 w-full h-full
                     bg-80 opacity-75
                 "
-                style="z-index: 10"
+                style="z-index: 10; background: #000000; opacity: 0.5;"
                 @click="hideMenu"
             >
             </div>
@@ -123,7 +181,13 @@ export default {
 
     computed: {
         config() {
-            return widgetTypes[this.node.attrs.type] || { label: 'Widget', fields: [] };
+            return widgetTypes[this.node.attrs.type] || {
+                label: 'Widget',
+                icon: '🧩',
+                accent: '#94a3b8',
+                summarize: () => '',
+                fields: [],
+            };
         },
 
         visibleFields() {
@@ -131,26 +195,7 @@ export default {
         },
 
         summary() {
-            const parts = [];
-
-            _.each(this.config.fields, (field) => {
-                if (!this.fieldIsVisibleFor(field, this.node.attrs)) {
-                    return;
-                }
-
-                const value = this.node.attrs[field.attr];
-
-                if (field.input === 'select') {
-                    const option = _.find(field.options, { value: value || field.default });
-                    if (option) {
-                        parts.push(option.label);
-                    }
-                } else if (value) {
-                    parts.push(value);
-                }
-            });
-
-            return parts.length ? parts.join(' · ') : this.__('click to configure');
+            return this.config.summarize(this.node.attrs) || 'Cliquer pour configurer';
         }
     },
 
@@ -200,8 +245,8 @@ export default {
             this.$el.remove();
         },
 
-        __(str) {
-            return str;
+        trans(str) {
+            return Nova.config('tiptapTranslations')[str] || str;
         }
     }
 }

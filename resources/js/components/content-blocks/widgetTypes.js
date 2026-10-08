@@ -10,6 +10,18 @@
 export default {
     getyourguide: {
         label: 'Widget GetYourGuide',
+        icon: '🎟️',
+        accent: '#ff5533',
+        summarize(attrs) {
+            if (attrs.mode === 'tours') {
+                return attrs.tourids
+                    ? 'Activités précises : ' + attrs.tourids
+                    : 'Activités précises : aucun ID renseigné';
+            }
+
+            return 'Recherche : ' + (attrs.query || 'destination du post')
+                + ' · ' + (attrs.items || '3') + ' activités';
+        },
         fields: [
             {
                 attr: 'mode',
@@ -46,6 +58,23 @@ export default {
 
     nenustay: {
         label: 'Widget Nenustay',
+        icon: '🏨',
+        accent: '#0ea5e9',
+        summarize(attrs) {
+            const displayLabels = {
+                card: 'Carte hébergements (destination du post)',
+                list: 'Mini-liste d\'établissements',
+                button: 'Bouton simple',
+            };
+
+            let summary = displayLabels[attrs.display] || displayLabels.card;
+
+            if (attrs.title) {
+                summary += ' · « ' + attrs.title + ' »';
+            }
+
+            return summary;
+        },
         fields: [
             {
                 attr: 'display',
