@@ -226,7 +226,7 @@
     import Placeholder from "@tiptap/extension-placeholder";
 
     import Dropcursor from "@tiptap/extension-dropcursor";
-    import ImageResize from "tiptap-extension-resize-image";
+    import ImageResize, { Figure, Figcaption } from "tiptap-extension-resize-image";
 
     import LinkButton from "./buttons/LinkButton";
     import NormalButton from "./buttons/NormalButton";
@@ -677,6 +677,10 @@
 
                         return ['img', attrs];
                     },
+                }),
+                Figure,
+                Figcaption.configure({
+                    placeholder: "Légende…",
                 }),
                 Dropcursor,
             ];
