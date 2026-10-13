@@ -167,6 +167,7 @@
 
                 <div
                     class="w-full pt-2 pb-2 mt-3 nova-tiptap-editor form-input form-input-bordered"
+                    :class="frontPreviewClasses"
                     :style="cssProps"
                     v-show="mode == 'editor'"
                 >
@@ -257,7 +258,7 @@
     import { DependentFormField, HandlesValidationErrors } from "laravel-nova";
 
     // Marqueur de debug : vérifier en console que le bundle chargé est le bon
-    window.__novaTiptapVersion = "5.8.21";
+    window.__novaTiptapVersion = "5.8.23";
 
     import PlaceholderBlockExtension from "../extensions/PlaceholderBlockExtension.js";
     import VideoContentBlockExtension from "./content-blocks/VideoContentBlockExtension.js";
@@ -413,7 +414,21 @@
             cssProps() {
                 return {
                     "--text-align": this.defaultAlignment || "left",
+                    ...(this.frontPreview?.cssVars || {}),
                 };
+            },
+
+            // Meta `frontPreview` (App\Nova\Fields\Tiptap) : classe thème +
+            // CSS vars du domaine + fonts, pour un rendu « comme le front »
+            // (styles : public/css/tiptap-theme-preview.css, repo app)
+            frontPreview() {
+                return this.currentField.frontPreview || null;
+            },
+
+            frontPreviewClasses() {
+                return this.frontPreview
+                    ? ["tiptap-front-preview", this.frontPreview.themeClass]
+                    : [];
             },
 
             htmlTheme() {
@@ -458,6 +473,16 @@
         },
 
         mounted() {
+            (this.frontPreview?.fontCssUrls || []).forEach((href) => {
+                if (!document.querySelector(`link[data-tiptap-font][href="${href}"]`)) {
+                    const link = document.createElement("link");
+                    link.rel = "stylesheet";
+                    link.href = href;
+                    link.setAttribute("data-tiptap-font", "1");
+                    document.head.appendChild(link);
+                }
+            });
+
             this.placeholder = this.currentField.placeholder
                 ? this.currentField.placeholder
                 : this.currentField.extraAttributes
