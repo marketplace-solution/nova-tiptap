@@ -258,7 +258,7 @@
     import { DependentFormField, HandlesValidationErrors } from "laravel-nova";
 
     // Marqueur de debug : vérifier en console que le bundle chargé est le bon
-    window.__novaTiptapVersion = "5.8.23";
+    window.__novaTiptapVersion = "5.8.24";
 
     import PlaceholderBlockExtension from "../extensions/PlaceholderBlockExtension.js";
     import VideoContentBlockExtension from "./content-blocks/VideoContentBlockExtension.js";

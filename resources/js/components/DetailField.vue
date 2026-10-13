@@ -1,7 +1,7 @@
 <template>
   <PanelItem :index="index" :field="field">
     <template #value>
-      <div class="tiptap-detail-content" v-html="field.value"></div>
+      <div :class="wrapperClasses" :style="frontPreview?.cssVars || {}" v-html="field.value"></div>
     </template>
   </PanelItem>
 </template>
@@ -9,6 +9,33 @@
 <script>
 export default {
   props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
+
+  computed: {
+    // Meta `frontPreview` (posé côté app) : rendu « comme le thème front ».
+    // La classe stock (et ses styles scoped ci-dessous) est alors remplacée —
+    // styles : public/css/tiptap-theme-preview.css (repo app)
+    frontPreview() {
+      return this.field.frontPreview || null;
+    },
+
+    wrapperClasses() {
+      return this.frontPreview
+        ? ['tiptap-detail-content--preview', 'tiptap-front-preview', this.frontPreview.themeClass]
+        : 'tiptap-detail-content';
+    },
+  },
+
+  mounted() {
+    (this.frontPreview?.fontCssUrls || []).forEach((href) => {
+      if (!document.querySelector(`link[data-tiptap-font][href="${href}"]`)) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        link.setAttribute("data-tiptap-font", "1");
+        document.head.appendChild(link);
+      }
+    });
+  },
 }
 </script>
 
