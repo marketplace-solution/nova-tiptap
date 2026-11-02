@@ -11,7 +11,8 @@
  * - input 'select': rendered as visual option tiles — options need
  *   { value, label, icon } (icon optional).
  * - input 'text' / 'number': label + placeholder + optional min/max.
- * - showIf: { attr: value } — field only visible when matching.
+ * - showIf: { attr: value } or { attr: [value, value] } — field only
+ *   visible when the attr matches (one of) the expected value(s).
  */
 export default {
     getyourguide: {
@@ -19,6 +20,10 @@ export default {
         icon: '🎟️',
         accent: '#ff5533',
         summarize(attrs) {
+            if (attrs.mode === 'auto') {
+                return 'Automatique (contexte de l\'article) · ' + (attrs.items || '3') + ' activités';
+            }
+
             if (attrs.mode === 'tours') {
                 return attrs.tourids
                     ? 'Activités précises : ' + attrs.tourids
@@ -35,6 +40,7 @@ export default {
                 input: 'select',
                 default: 'search',
                 options: [
+                    { value: 'auto', label: 'Automatique', icon: '✨', hint: 'GetYourGuide lit l\'article et choisit les activités' },
                     { value: 'search', label: 'Recherche', icon: '🔍', hint: 'Les meilleures activités de la destination' },
                     { value: 'tours', label: 'Activités précises', icon: '🎯', hint: 'Une liste d\'IDs GetYourGuide' },
                 ],
@@ -62,7 +68,7 @@ export default {
                 default: '3',
                 min: 1,
                 max: 9,
-                showIf: { mode: 'search' },
+                showIf: { mode: ['search', 'auto'] },
             },
         ],
     },

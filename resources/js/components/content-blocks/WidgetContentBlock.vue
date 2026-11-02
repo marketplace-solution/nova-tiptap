@@ -265,7 +265,10 @@ export default {
 
             return _.every(field.showIf, (expected, attr) => {
                 const current = source[attr] || this.defaultFor(attr);
-                return current === expected;
+
+                return Array.isArray(expected)
+                    ? expected.includes(current)
+                    : current === expected;
             });
         },
 
