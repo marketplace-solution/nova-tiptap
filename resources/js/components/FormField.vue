@@ -267,6 +267,7 @@
     import BackgroundColorExtension from "../extensions/BackgroundColor.js";
     import InfoExtension from "../extensions/InfoExtension.js";
     import LeadExtension from "../extensions/LeadExtension.js";
+    import IframeExtension from "../extensions/IframeExtension.js";
 
     export default {
         mixins: [
@@ -635,6 +636,12 @@
                     placeholder: this.placeholder,
                 }),
                 ImageResize.extend({
+                    // Une image dans une <figure> SANS légende (format des anciens articles) n'était parsée ni par
+                    // imageResize (« img[src]:not(figure img) ») ni par Figure (« figure:has(img):has(figcaption) ») :
+                    // elle disparaissait au chargement. Seules les figures légendées restent au node Figure.
+                    parseHTML() {
+                        return [{ tag: "img[src]:not(figure:has(figcaption) img)" }];
+                    },
                     addAttributes() {
                         return {
                             ...this.parent?.(),
@@ -662,12 +669,20 @@
                                 default: "file",
                                 renderHTML: () => ({}),
                             },
+                            // Lien autour de l'image (<a href><img></a>) : lu sur l'ancêtre, réécrit par renderHTML.
                             "tt-link-url": {
                                 default: "",
+                                parseHTML: (element) => element.closest("a")?.getAttribute("href") || "",
                                 renderHTML: () => ({}),
                             },
                             "tt-link-target": {
                                 default: "",
+                                parseHTML: (element) => element.closest("a")?.getAttribute("target") || "",
+                                renderHTML: () => ({}),
+                            },
+                            "tt-link-rel": {
+                                default: "",
+                                parseHTML: (element) => element.closest("a")?.getAttribute("rel") || "",
                                 renderHTML: () => ({}),
                             },
                             "tt-link-mode": {
@@ -682,7 +697,7 @@
                             alt: String,
                         };
                     },
-                    renderHTML({ HTMLAttributes }) {
+                    renderHTML({ HTMLAttributes, node }) {
                         const { containerStyle, wrapperStyle, ...attrs } = HTMLAttributes;
 
                         if (containerStyle) {
@@ -700,9 +715,26 @@
                             }
                         }
 
-                        return ['img', attrs];
+                        const href = node.attrs["tt-link-url"];
+
+                        if (! href) {
+                            return ['img', attrs];
+                        }
+
+                        const link = { href };
+
+                        if (node.attrs["tt-link-target"]) {
+                            link.target = node.attrs["tt-link-target"];
+                        }
+
+                        if (node.attrs["tt-link-rel"]) {
+                            link.rel = node.attrs["tt-link-rel"];
+                        }
+
+                        return ['a', link, ['img', attrs]];
                     },
                 }),
+                IframeExtension,
                 Figure,
                 Figcaption.configure({
                     placeholder: "Légende…",
