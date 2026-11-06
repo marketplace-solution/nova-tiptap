@@ -202,6 +202,7 @@
     import Highlight from "@tiptap/extension-highlight";
     import HorizontalRule from "@tiptap/extension-horizontal-rule";
     import Italic from "@tiptap/extension-italic";
+    import withoutBlockWrappers from "../extensions/InlineMarkGuard.js";
     import Link from "@tiptap/extension-link";
     import ListItem from "@tiptap/extension-list-item";
     import OrderedList from "@tiptap/extension-ordered-list";
@@ -258,7 +259,7 @@
     import { DependentFormField, HandlesValidationErrors } from "laravel-nova";
 
     // Marqueur de debug : vérifier en console que le bundle chargé est le bon
-    window.__novaTiptapVersion = "5.8.25";
+    window.__novaTiptapVersion = "5.8.27";
 
     import PlaceholderBlockExtension from "../extensions/PlaceholderBlockExtension.js";
     import VideoContentBlockExtension from "./content-blocks/VideoContentBlockExtension.js";
@@ -517,9 +518,17 @@
 
             let extensions = [
                 Document,
-                Bold,
+                Bold.extend({
+                    parseHTML() {
+                        return withoutBlockWrappers(this.parent?.() ?? []);
+                    },
+                }),
                 Code,
-                Italic,
+                Italic.extend({
+                    parseHTML() {
+                        return withoutBlockWrappers(this.parent?.() ?? []);
+                    },
+                }),
                 Highlight,
                 PlaceholderBlockExtension.extend({
                     addAttributes() {
